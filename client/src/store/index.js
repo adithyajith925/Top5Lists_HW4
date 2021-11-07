@@ -257,11 +257,14 @@ function GlobalStoreContextProvider(props) {
         let response = await api.getTop5ListById(id);
         if (response.data.success) {
             let top5List = response.data.top5List;
+            store.deleteList(top5List);
             storeReducer({
                 type: GlobalStoreActionType.MARK_LIST_FOR_DELETION,
                 payload: top5List
             });
         }
+        // console.log(store.listMarkedForDeletion);
+        // store.deleteMarkedList();
     }
 
     store.deleteList = async function (listToDelete) {

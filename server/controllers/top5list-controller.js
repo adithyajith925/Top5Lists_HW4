@@ -74,6 +74,7 @@ updateTop5List = async (req, res) => {
 }
 
 deleteTop5List = async (req, res) => {
+    console.log(req.body);
     Top5List.findById({ _id: req.params.id }, (err, top5List) => {
         if (err) {
             return res.status(404).json({
@@ -81,6 +82,12 @@ deleteTop5List = async (req, res) => {
                 message: 'Top 5 List not found!',
             })
         }
+        // if (top5List.ownerEmail !== req.params.email) {
+        //     return res.status(400).json({
+        //         err,
+        //         message: 'NOT YOURS!!!',
+        //     })
+        // }
         Top5List.findOneAndDelete({ _id: req.params.id }, () => {
             return res.status(200).json({ success: true, data: top5List })
         }).catch(err => console.log(err))
