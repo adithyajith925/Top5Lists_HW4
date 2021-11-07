@@ -174,7 +174,7 @@ function GlobalStoreContextProvider(props) {
                     async function getListPairs(top5List) {
                         response = await api.getTop5ListPairs();
                         if (response.data.success) {
-                            let pairsArray = response.data.idNamePairs;
+                            let pairsArray = store.loadOwnedPairs(response);
                             storeReducer({
                                 type: GlobalStoreActionType.CHANGE_LIST_NAME,
                                 payload: {
@@ -232,12 +232,7 @@ function GlobalStoreContextProvider(props) {
     store.loadIdNamePairs = async function () {
         const response = await api.getTop5ListPairs();
         if (response.data.success) {
-            let pairsArray = [];
-            response.data.idNamePairs.forEach(element => {
-                if (element.ownerEmail === auth.user.email) {
-                    pairsArray.push(element);
-                }
-            });
+            let pairsArray = store.loadOwnedPairs(response);
             storeReducer({
                 type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
                 payload: pairsArray
@@ -246,6 +241,16 @@ function GlobalStoreContextProvider(props) {
         else {
             console.log("API FAILED TO GET THE LIST PAIRS");
         }
+    }
+
+    store.loadOwnedPairs = function (response) {
+        let pairsArray = [];
+        response.data.idNamePairs.forEach(element => {
+            if (element.ownerEmail === auth.user.email) {
+                pairsArray.push(element);
+            }
+        });
+        return pairsArray;
     }
 
     // THE FOLLOWING 5 FUNCTIONS ARE FOR COORDINATING THE DELETION
