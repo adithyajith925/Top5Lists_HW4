@@ -125,7 +125,7 @@ function AuthContextProvider(props) {
             }
         }
         catch (err) {
-            console.log("DASDAsd");
+            return err.response.data.errorMessage;
         }
     }
 

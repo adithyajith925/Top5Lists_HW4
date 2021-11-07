@@ -56,25 +56,25 @@ export default function RegisterScreen() {
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Error registering your account!"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {error}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} autoFocus>
-            Okay
-          </Button>
-        </DialogActions>
-      </Dialog>
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >         
+                    <DialogTitle id="alert-dialog-title">
+                        {"Error registering your account!"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {error}
+                        </DialogContentText>
+                        </DialogContent>
+                    <DialogActions>
+                    <Button onClick={handleClose} autoFocus>
+                        Okay
+                    </Button>
+                    </DialogActions>
+                </Dialog>
                 <Box
                     sx={{
                         marginTop: 8,

@@ -4,6 +4,12 @@ import ListCard from './ListCard.js'
 import { Fab, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import List from '@mui/material/List';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -11,10 +17,27 @@ import List from '@mui/material/List';
 */
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
+    const [open, setOpen] = React.useState(false);
+    var lname = "";
+    if (store.listMarkedForDeletion) {
+        lname = store.listMarkedForDeletion.name;
+    }
 
     useEffect(() => {
         store.loadIdNamePairs();
     }, []);
+
+    const handleConfirm = () => {
+        store.deleteMarkedList();
+    };
+
+    const handleCancel = () => {
+        store.unmarkListForDeletion();
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     function handleCreateNewList() {
         store.createNewList();
@@ -36,6 +59,29 @@ const HomeScreen = () => {
     }
     return (
         <div id="top5-list-selector">
+            <Dialog
+                open={store.listMarkedForDeletion}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >         
+                <DialogTitle id="alert-dialog-title">
+                    {"Confirm deletion!"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        {"Are you sure you want to delete the Top 5 " + lname +" List?"}
+                    </DialogContentText>
+                    </DialogContent>
+                <DialogActions>
+                <Button onClick={handleConfirm} autoFocus>
+                    Yes, delete
+                </Button>
+                <Button onClick={handleCancel} autoFocus>
+                    Cancel
+                </Button>
+                </DialogActions>
+            </Dialog>
             <div id="list-selector-heading">
             <Fab 
                 color="primary" 

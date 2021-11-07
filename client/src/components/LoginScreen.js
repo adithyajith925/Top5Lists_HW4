@@ -15,6 +15,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { GlobalStoreContext } from '../store'
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 function Copyright(props) {
   return (
@@ -34,6 +39,17 @@ const theme = createTheme();
 export default function LoginScreen() {
   const { auth } = useContext(AuthContext);
   const { store } = useContext(GlobalStoreContext);
+  const [error, setError] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+  
+  const handleClose = () => {
+    setOpen(false);
+  };  
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -41,9 +57,35 @@ export default function LoginScreen() {
         email: data.get('email'),
         password: data.get('password')
     }, store);
+    if (message) {
+      message.then(function(result) {
+          setError(result);
+          handleClickOpen();
+      });
+    }
   };
   return (
     <ThemeProvider theme={theme}>
+      <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >         
+                    <DialogTitle id="alert-dialog-title">
+                        {"Error signing in!"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {error}
+                        </DialogContentText>
+                        </DialogContent>
+                    <DialogActions>
+                    <Button onClick={handleClose} autoFocus>
+                        Okay
+                    </Button>
+                    </DialogActions>
+                </Dialog>
       <Grid container component="main" sx={{ height: '80vh' }}>
         <CssBaseline />
         <Grid
