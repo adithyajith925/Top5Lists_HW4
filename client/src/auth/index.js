@@ -48,7 +48,7 @@ function AuthContextProvider(props) {
             case AuthActionType.LOGOUT_USER: {
                 return setAuth({
                     user: null,
-                    loggedIn: true
+                    loggedIn: false
                 })
             }
             default:
@@ -95,9 +95,9 @@ function AuthContextProvider(props) {
         }
     }
 
-    auth.logoutUser = async function() {
+    auth.logoutUser = async function(userData) {
         try {
-            const response = await api.logoutUser();
+            const response = await api.logoutUser(userData);
             if (response.status === 200) {
                 authReducer({
                     type: AuthActionType.LOGOUT_USER

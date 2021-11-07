@@ -17,7 +17,7 @@ getLoggedIn = async (req, res) => {
 }
 
 loginUser = async (req, res) => {
-    const { email, password} = req.body;
+    const {email, password} = req.body;
     if (!email) {
         return res
             .status(400)
@@ -50,7 +50,6 @@ loginUser = async (req, res) => {
         }
         if (respo) {
             const token = auth.signToken(existingUser);
-
             await res.cookie("token", token, {
                 httpOnly: true,
                 secure: true,
@@ -75,7 +74,7 @@ loginUser = async (req, res) => {
     console.log(existingUser);
 }
 
-logoutUser = async (res) => {
+logoutUser = async (req, res) => {
     await res.clearCookie("token").status(200).json({success: true});
 }
 
