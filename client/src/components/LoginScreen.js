@@ -37,11 +37,11 @@ export default function LoginScreen() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    auth.loginUser(data.get('email'), data.get('password'));
+    let message = auth.loginUser({
+        email: data.get('email'),
+        password: data.get('password')
+    }, store);
   };
   return (
     <ThemeProvider theme={theme}>

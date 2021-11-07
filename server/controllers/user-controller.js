@@ -16,6 +16,69 @@ getLoggedIn = async (req, res) => {
     })
 }
 
+loginUser = async (req, res) => {
+    const { email, password} = req.body;
+    if (!email) {
+        return res
+            .status(400)
+            .json({
+                success: false,
+                errorMessage: "Please enter an email address."
+            })
+    }
+    if (!password) {
+        return res
+            .status(400)
+            .json({
+                success: false,
+                errorMessage: "Please enter a password."
+            })
+    }
+    const existingUser = await User.findOne({ email: email});
+    if (!existingUser) {
+        return res
+            .status(400)
+            .json({
+                success: false,
+                errorMessage: "This email is not associated with any account on file."
+            })
+    }
+
+    bcrypt.compare(password, existingUser.passwordHash, async function(err, respo) {
+        if (err) {
+            console.log("how");
+        }
+        if (respo) {
+            const token = auth.signToken(existingUser);
+
+            await res.cookie("token", token, {
+                httpOnly: true,
+                secure: true,
+                sameSite: "none"
+            }).status(200).json({
+                success: true,
+                user: {
+                    firstName: existingUser.firstName,
+                    lastName: existingUser.lastName,
+                    email: existingUser.email
+                }
+            }).send();
+        }
+        else {
+            return res.status(400)
+            .json({
+                success: false,
+                errorMessage: "Incorrect email or password."
+            });
+        }
+    });
+    console.log(existingUser);
+}
+
+logoutUser = async (res) => {
+    await res.clearCookie("token").status(200).json({success: true});
+}
+
 registerUser = async (req, res) => {
     try {
         const { firstName, lastName, email, password, passwordVerify } = req.body;
@@ -80,5 +143,7 @@ registerUser = async (req, res) => {
 
 module.exports = {
     getLoggedIn,
-    registerUser
+    registerUser,
+    loginUser,
+    logoutUser
 }

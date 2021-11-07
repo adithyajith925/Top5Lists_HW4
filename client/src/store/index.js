@@ -232,9 +232,11 @@ function GlobalStoreContextProvider(props) {
     store.loadIdNamePairs = async function () {
         const response = await api.getTop5ListPairs();
         if (response.data.success) {
-            let pairsArray = response.data.idNamePairs;
-            pairsArray.forEach(element => {
-                console.log(element);
+            let pairsArray = [];
+            response.data.idNamePairs.forEach(element => {
+                if (element.ownerEmail === auth.user.email) {
+                    pairsArray.push(element);
+                }
             });
             storeReducer({
                 type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
