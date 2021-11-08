@@ -17,7 +17,6 @@ import Button from '@mui/material/Button';
 */
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
-    const [open, setOpen] = React.useState(false);
     var lname = "";
     if (store.listMarkedForDeletion) {
         lname = store.listMarkedForDeletion.name;
@@ -34,10 +33,6 @@ const HomeScreen = () => {
     const handleCancel = () => {
         store.unmarkListForDeletion();
     }
-
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     function handleCreateNewList() {
         store.createNewList();
@@ -61,7 +56,6 @@ const HomeScreen = () => {
         <div id="top5-list-selector">
             <Dialog
                 open={store.listMarkedForDeletion}
-                onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >         
