@@ -25,8 +25,8 @@ function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" to="">
-        Your Website
+      <Link color="inherit" href="/">
+        The Top 5 Lister
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -110,6 +110,7 @@ export default function LoginScreen() {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              fontFamily: "'Rubik', sans-serif;"
             }}
           >
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -153,12 +154,9 @@ export default function LoginScreen() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="/register/" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
