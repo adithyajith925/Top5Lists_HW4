@@ -57,11 +57,13 @@ function ListCard(props) {
         setText(event.target.value);
     }
 
+    // default list card
     let cardElement =
         <ListItem
             id={idNamePair._id}
             key={idNamePair._id}
-            sx={{ marginTop: '15px', display: 'flex', p: 1 }}
+            sx={{ marginTop: '15px', display: 'flex', p: 1,
+            fontFamily: "'Rubik', sans-serif"}}
             button
             onClick={(event) => {
                 handleLoadList(event, idNamePair._id)
@@ -87,6 +89,7 @@ function ListCard(props) {
                 </Box>
         </ListItem>
 
+    // expanded list card
     if (editActive) {
         cardElement =
             <TextField

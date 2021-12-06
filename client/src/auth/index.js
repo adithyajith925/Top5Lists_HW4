@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
-import { useHistory } from 'react-router-dom'
-import api from '../api'
+import { useHistory } from 'react-router-dom';
+import api from '../api';
+import { ScreenType } from '../store';
 
 const AuthContext = createContext();
 console.log("create AuthContext: " + AuthContext);
@@ -10,13 +11,15 @@ export const AuthActionType = {
     GET_LOGGED_IN: "GET_LOGGED_IN",
     REGISTER_USER: "REGISTER_USER",
     LOGIN_USER: "LOGIN_USER",
-    LOGOUT_USER: "LOGOUT_USER"
+    LOGOUT_USER: "LOGOUT_USER",
+    GUEST_VIEW: "GUEST_VIEW"
 }
 
 function AuthContextProvider(props) {
     const [auth, setAuth] = useState({
         user: null,
-        loggedIn: false
+        loggedIn: false,
+        isGuest: false
     });
     const history = useHistory();
 
@@ -30,25 +33,36 @@ function AuthContextProvider(props) {
             case AuthActionType.GET_LOGGED_IN: {
                 return setAuth({
                     user: payload.user,
-                    loggedIn: payload.loggedIn
+                    loggedIn: payload.loggedIn,
+                    isGuest: false
                 });
             }
             case AuthActionType.REGISTER_USER: {
                 return setAuth({
                     user: payload.user,
-                    loggedIn: true
+                    loggedIn: true,
+                    isGuest: false
                 })
             }
             case AuthActionType.LOGIN_USER: {
                 return setAuth({
                     user: payload.user,
-                    loggedIn: true
+                    loggedIn: true,
+                    isGuest: false
                 })
             }
             case AuthActionType.LOGOUT_USER: {
                 return setAuth({
                     user: null,
-                    loggedIn: false
+                    loggedIn: false,
+                    isGuest: false
+                })
+            }
+            case AuthActionType.GUEST_VIEW: {
+                return setAuth({
+                    user: null,
+                    loggedIn: payload.loggedIn,
+                    isGuest: payload.isGuest
                 })
             }
             default:
@@ -72,6 +86,20 @@ function AuthContextProvider(props) {
         catch (err) {
             console.log(err);
         }
+    }
+
+    auth.enterGuestView = function() {
+        authReducer({
+            type: AuthActionType.GUEST_VIEW,
+            payload: {loggedIn: true, isGuest: true}
+        });
+    }
+
+    auth.exitGuestView = function() {
+        authReducer({
+            type: AuthActionType.GUEST_VIEW,
+            payload: {loggedIn: false, isGuest: false}
+        });
     }
 
     auth.registerUser = async function(userData, store) {
@@ -121,7 +149,7 @@ function AuthContextProvider(props) {
                     }
                 })
                 history.push("/");
-                store.loadIdNamePairs();
+                store.loadIdNamePairs(ScreenType.HOME);
             }
         }
         catch (err) {

@@ -68,11 +68,11 @@ function WorkspaceScreen() {
                 </Dialog>
             <div id="workspace-edit">
                 <div id="edit-numbering">
-                    <div className="item-number"><Typography variant="h3">1.</Typography></div>
-                    <div className="item-number"><Typography variant="h3">2.</Typography></div>
-                    <div className="item-number"><Typography variant="h3">3.</Typography></div>
-                    <div className="item-number"><Typography variant="h3">4.</Typography></div>
-                    <div className="item-number"><Typography variant="h3">5.</Typography></div>
+                    <div className="item-number">1.</div>
+                    <div className="item-number">2.</div>
+                    <div className="item-number">3.</div>
+                    <div className="item-number">4.</div>
+                    <div className="item-number">5.</div>
                 </div>
                 {editItems}
             </div>

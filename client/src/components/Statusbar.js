@@ -10,8 +10,9 @@ import { Typography } from '@mui/material'
 function Statusbar() {
     const { store } = useContext(GlobalStoreContext);
     let text ="";
-    if (store.currentList)
-        text = store.currentList.name;
+    if (store.currentScreen) {
+        text = store.currentScreen;
+    }
     return (
         <div id="top5-statusbar">
             <Typography variant="h4">{text}</Typography>

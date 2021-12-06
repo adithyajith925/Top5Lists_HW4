@@ -1,8 +1,6 @@
 import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
 import Button from '@mui/material/Button';
-import UndoIcon from '@mui/icons-material/Undo';
-import RedoIcon from '@mui/icons-material/Redo';
 import CloseIcon from '@mui/icons-material/HighlightOff';
 
 /*
@@ -13,14 +11,6 @@ import CloseIcon from '@mui/icons-material/HighlightOff';
 */
 function EditToolbar() {
     const { store } = useContext(GlobalStoreContext);
-    var canundo = store.canUndo();
-    var canredo = store.canRedo();
-    function handleUndo() {
-        store.undo();
-    }
-    function handleRedo() {
-        store.redo();
-    }
     function handleClose() {
         store.closeCurrentList();
     }
@@ -30,20 +20,6 @@ function EditToolbar() {
     }  
     return (
         <div id="edit-toolbar">
-            <Button 
-                disabled={!canundo}
-                id='undo-button'
-                onClick={handleUndo}
-                variant="contained">
-                    <UndoIcon />
-            </Button>
-            <Button 
-                disabled={!canredo}
-                id='redo-button'
-                onClick={handleRedo}
-                variant="contained">
-                    <RedoIcon />
-            </Button>
             <Button 
                 disabled={editStatus}
                 id='close-button'

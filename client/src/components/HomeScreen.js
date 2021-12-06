@@ -22,9 +22,9 @@ const HomeScreen = () => {
         lname = store.listMarkedForDeletion.name;
     }
 
-    useEffect(() => {
-        store.loadIdNamePairs();
-    }, []);
+    // useEffect(() => {
+    //     store.loadIdNamePairs(store.currentScreen);
+    // }, []);
 
     const handleConfirm = () => {
         store.deleteMarkedList();
@@ -40,7 +40,7 @@ const HomeScreen = () => {
     let listCard = "";
     if (store) {
         listCard = 
-            <List sx={{ width: '90%', left: '5%', bgcolor: 'background.paper' }}>
+            <List sx={{ width: '100%', left: '0%', bgcolor: 'background.paper', borderRadius: '25px' }}>
             {
                 store.idNamePairs.map((pair) => (
                     <ListCard
@@ -76,7 +76,7 @@ const HomeScreen = () => {
                 </Button>
                 </DialogActions>
             </Dialog>
-            <div id="list-selector-heading">
+            {/* <div id="list-selector-heading">
             <Fab 
                 color="primary" 
                 aria-label="add"
@@ -86,7 +86,7 @@ const HomeScreen = () => {
                 <AddIcon />
             </Fab>
                 <Typography variant="h2">Your Lists</Typography>
-            </div>
+            </div> */}
             <div id="list-selector-list">
                 {
                     listCard

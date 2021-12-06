@@ -9,8 +9,11 @@ import {
     RegisterScreen,
     Statusbar,
     WorkspaceScreen,
-    LoginScreen
+    LoginScreen,
+    CommunityScreen,
+    UserScreen,
 } from './components'
+import ListSortBar from './components/ListSortBar';
 /*
     This is our application's top-level component.
     
@@ -29,6 +32,7 @@ const App = () => {
             <AuthContextProvider>
                 <GlobalStoreContextProvider>              
                     <AppBanner />
+                    <ListSortBar />
                     <Switch>
                         <Route path="/" exact component={HomeWrapper} />
                         <Route path="/register/" exact component={RegisterScreen} />

@@ -12,32 +12,34 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 
-export default function AppBanner() {
-    const { auth } = useContext(AuthContext);
+/*
+    This toolbar is a functional React component that
+    manages the undo/redo/close buttons.
+    
+    @author McKilla Gorilla
+*/
+function ListSortBar() {
     const { store } = useContext(GlobalStoreContext);
+    const { auth } = useContext(AuthContext);
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
 
-    const handleProfileMenuOpen = (event) => {
+    const handleSortMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
-    };
+    }
 
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
 
-    const handleLogout = () => {
-        handleMenuClose();
-        auth.logoutUser({email: auth.user.email});
-    }
-
     const menuId = 'primary-search-account-menu';
-    const loggedOutMenu = (
+
+    const sortMenu =(
         <Menu
             anchorEl={anchorEl}
             anchorOrigin={{
                 vertical: 'top',
-                horizontal: 'right',
+                horizontal: 'right'
             }}
             id={menuId}
             keepMounted
@@ -47,53 +49,18 @@ export default function AppBanner() {
             }}
             open={isMenuOpen}
             onClose={handleMenuClose}
-        >
-            <MenuItem onClick={handleMenuClose}><Link to='/login/'>Login</Link></MenuItem>
-            <MenuItem onClick={handleMenuClose}><Link to='/register/'>Create New Account</Link></MenuItem>
-        </Menu>
-    );
-    const loggedInMenu = 
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            id={menuId}
-            keepMounted
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
-        </Menu>        
+            >
 
-    let editToolbar = "";
-    let menu = loggedOutMenu;
-    if (auth.loggedIn && !auth.isGuest) {
-        menu = loggedInMenu;
-        // if (store.currentList) {
-        //     editToolbar = <EditToolbar />;
-        // }
-    }
-    
-    function getAccountMenu(loggedIn) {
-        if(loggedIn && auth.user) {
-            return auth.user.firstName[0] + auth.user.lastName[0];
-        }
-        return <AccountCircle />;
-    }
+                <MenuItem onClick={handleMenuClose}></MenuItem>
+                <MenuItem onClick={handleMenuClose}><Link to='/register/'>Create New Account</Link></MenuItem>
+            </Menu>
+    )
 
-    function handleHome() {
-        if(auth.isGuest) {
-            auth.exitGuestView();
-            console.log(auth.isGuest);
-        }
-    }
 
+    let editStatus = false;
+    if (store.isListNameEditActive) {
+        editStatus = true;
+    }  
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" sx={{backgroundColor: '#1d3557'}}>
@@ -105,10 +72,9 @@ export default function AppBanner() {
                         sx={{ display: { xs: 'none', sm: 'block' } }}                        
                     >
                         <Link 
-                        onClick={handleHome}
                         style={{ textDecoration: 'none', color: 'white' }} to='/'>T<sup>5</sup>L</Link>
                     </Typography>
-                    <Box sx={{ flexGrow: 1 }}>{editToolbar}</Box>
+                    <Box sx={{ flexGrow: 1 }}>{""}</Box>
                     <Box sx={{display: { xs: 'none', md: 'flex' } }}>
                         <IconButton
                             size="large"
@@ -116,17 +82,19 @@ export default function AppBanner() {
                             aria-label="account of current user"
                             aria-controls={menuId}
                             aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
+                            onClick={handleSortMenuOpen}
                             color="inherit"
                         >
-                            { getAccountMenu(auth.loggedIn) }
+                            {""}
                         </IconButton>
                     </Box>
                 </Toolbar>
             </AppBar>
             {
-                menu
+                sortMenu
             }
         </Box>
-    );
+    )
 }
+
+export default ListSortBar;
