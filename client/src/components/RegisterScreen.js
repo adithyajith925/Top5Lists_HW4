@@ -53,6 +53,7 @@ export default function RegisterScreen() {
 
 
     return (
+        <div id = "createbar">
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Dialog
@@ -164,5 +165,6 @@ export default function RegisterScreen() {
                 </Box>
                 <Copyright sx={{ mt: 5 }} />
             </Container>
+            </div>
     );
 }
