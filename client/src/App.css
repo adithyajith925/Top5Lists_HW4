@@ -321,6 +321,27 @@ p.statustext {
   background-color: #1d3557;
 }
 
+.commentcontainer {
+  background-color: #1d3557;
+  position: relative;
+  min-width: 49.5%;
+  height: 76%;
+  border-radius: 25px;
+}
+
+.comments {
+  overflow-y: auto;
+  position: relative;
+  height: 80%;
+}
+
+.commentmaker {
+  padding-top: 1%;
+  position: relative;
+  left: 5%;
+  width: 90%;
+}
+
 
 .list-card,
 .selected-list-card,

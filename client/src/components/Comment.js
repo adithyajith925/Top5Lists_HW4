@@ -11,31 +11,17 @@ import EditIcon from '@mui/icons-material/Edit';
     
     @author McKilla Gorilla
 */
-function ViewItem(props) {
+function Comment(props) {
     const { store } = useContext(GlobalStoreContext);
 
-    let text = <p style={{color: 'white'}} className="listview">{props.index + 1 + ". " + props.text}</p>
+    let text = <p style={{color: 'white'}} className="listview">{props.text}</p>
 
     let item = 
-    <div className="listcontainer">
+    <div style={{backgroundColor: 'transparent', borderBottom: '2px solid white'}} className="listcontainer">
         {text}
     </div>
-
-    if(props.index === 0) {
-        item = 
-        <div style={{borderRadius: '25px 25px 0px 0px'}} className="listcontainer">
-            {text}
-        </div>
-    }
-
-    if(props.index === 4) {
-        item = 
-        <div style={{borderRadius: '0px 0px 25px 25px'}} className="listcontainer">
-            {text}
-        </div>
-    }
 
     return item;
 }
 
-export default ViewItem;
+export default Comment;

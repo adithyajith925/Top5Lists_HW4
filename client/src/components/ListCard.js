@@ -15,6 +15,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { ScreenType } from '../store';
 import { ViewItem } from '.';
+import { Comment } from '.';
 import List from '@mui/material/List';
 
 /*
@@ -75,7 +76,7 @@ function ListCard(props) {
                             <IconButton>
                                 <ThumbUpIcon fontSize={'large'} />
                             </IconButton>
-                            <p class='minitext'>12301</p>
+                            <p class='minitext'>{idNamePair.likes}</p>
                         </div>
                     </Grid>
                     <Grid item xs={1}>
@@ -83,7 +84,7 @@ function ListCard(props) {
                             <IconButton>
                                 <ThumbDownIcon fontSize={'large'} />
                             </IconButton>
-                            <p class='minitext'>39</p>
+                            <p class='minitext'>{idNamePair.dislikes}</p>
                         </div>
                     </Grid>
                     <Grid item xs={1}>
@@ -107,7 +108,7 @@ function ListCard(props) {
                         {uploaded}
                     </Grid>
                     <Grid item xs={1}>
-                        <p class='minitext listinfo'>Views:</p>
+                        <p class='minitext listinfo'>Views: {idNamePair.views}</p>
                     </Grid>
                     <Grid item xs={1}>
                     </Grid>
@@ -154,7 +155,7 @@ function ListCard(props) {
                                 <IconButton>
                                     <ThumbUpIcon fontSize={'large'} />
                                 </IconButton>
-                                <p class='minitext'>12301</p>
+                                <p class='minitext'>{idNamePair.likes}</p>
                             </div>
                         </Grid>
                         <Grid item xs={1}>
@@ -162,7 +163,7 @@ function ListCard(props) {
                                 <IconButton>
                                     <ThumbDownIcon fontSize={'large'} />
                                 </IconButton>
-                                <p class='minitext'>39</p>
+                                <p class='minitext'>{idNamePair.dislikes}</p>
                             </div>
                         </Grid>
                         <Grid item xs={1}>
@@ -190,6 +191,28 @@ function ListCard(props) {
                                 }
                         </Grid>
                         <Grid item xs={6}>
+                            <p class='minitext listinfo'></p>
+                            <div className="commentcontainer">
+                                <div className="comments">
+                                {
+                                    idNamePair.items.map((item, index) => (
+                                        <Comment 
+                                            key={'top5-item-' + (index+1)}
+                                            text={item}
+                                            index={index} 
+                                        />
+                                    ))}
+                                </div>
+                                <div className="commentmaker">
+                                    <TextField
+                                        inputProps={{style: {fontSize: 12}}}
+                                        fullWidth
+                                        borderRadius="25px"
+                                        label="Add Comment"
+                                        variant="filled"
+                                        sx={{backgroundColor: "white"}}/>
+                                </div>
+                            </div>
                         </Grid>
     
                         {/* Need to add expanded list viewer here! */}
@@ -199,12 +222,10 @@ function ListCard(props) {
                             {uploaded}
                         </Grid>
                         <Grid item xs={1}>
-                            <p class='minitext listinfo'>Views:</p>
+                            <p class='minitext listinfo'>Views: {idNamePair.views}</p>
                         </Grid>
                         <Grid item xs={1}>
                         </Grid>
-    
-                        {/* change to expand less when expanded */}
                         <Grid item xs={1}>
                                 <IconButton
                                 onClick={toggleExpand}>
