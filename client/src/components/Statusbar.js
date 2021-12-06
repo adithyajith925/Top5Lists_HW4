@@ -16,7 +16,7 @@ function Statusbar() {
     const { auth } = useContext(AuthContext);
 
     function handleCreate() {
-
+        store.createNewList();
     }
 
     

@@ -285,7 +285,7 @@ function GlobalStoreContextProvider(props) {
 
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
     store.loadIdNamePairs = async function (newScreen, sortType = SortingType.NEWEST) {
-        const response = await api.getTop5ListPairs();
+        const response = await api.getAllTop5Lists();
         if (response.data.success) {
             let pairsArray = [];
             if(newScreen === ScreenType.HOME) {
@@ -295,10 +295,9 @@ function GlobalStoreContextProvider(props) {
                 pairsArray = store.getCommunityLists();
             }
             else if(newScreen === ScreenType.ALL) {
-                pairsArray = response.data.idNamePairs;
+                pairsArray = response.data.data;
             }
             // let pairsArray = store.loadOwnedPairs(response);
-            console.log(pairsArray);
             storeReducer({
                 type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
                 payload: {newPairs: pairsArray, currentScreen: newScreen}
@@ -312,7 +311,7 @@ function GlobalStoreContextProvider(props) {
 
     store.loadOwnedPairs = function (response, sortType) {
         let pairsArray = [];
-        response.data.idNamePairs.forEach(element => {
+        response.data.data.forEach(element => {
             if (element.ownerEmail === auth.user.email) {
                 pairsArray.push(element);
             }
@@ -349,7 +348,7 @@ function GlobalStoreContextProvider(props) {
     store.deleteList = async function (listToDelete) {
         let response = await api.deleteTop5ListById(listToDelete._id);
         if (response.data.success) {
-            store.loadIdNamePairs();
+            store.loadIdNamePairs(ScreenType.HOME);
             history.push("/");
         }
     }

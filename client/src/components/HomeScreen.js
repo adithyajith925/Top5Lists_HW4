@@ -10,6 +10,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
+import { ScreenType } from '../store';
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -28,6 +29,7 @@ const HomeScreen = () => {
 
     const handleConfirm = () => {
         store.deleteMarkedList();
+        store.loadIdNamePairs(ScreenType.HOME);
     };
 
     const handleCancel = () => {
@@ -40,7 +42,7 @@ const HomeScreen = () => {
     let listCard = "";
     if (store) {
         listCard = 
-            <List sx={{ width: '100%', left: '0%', bgcolor: 'background.paper'}}>
+            <List sx={{ width: '95%', left: '2.5%', bgcolor: 'background.paper'}}>
             {
                 store.idNamePairs.map((pair) => (
                     <ListCard
