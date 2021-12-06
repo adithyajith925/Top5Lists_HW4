@@ -23,7 +23,7 @@ loginUser = async (req, res) => {
             .status(400)
             .json({
                 success: false,
-                errorMessage: "Please enter an email address."
+                errorMessage: "Please enter an email address or username."
             })
     }
     if (!password) {
@@ -40,7 +40,7 @@ loginUser = async (req, res) => {
             .status(400)
             .json({
                 success: false,
-                errorMessage: "This email is not associated with any account on file."
+                errorMessage: "This email or username is not associated with any account on file."
             })
     }
 
@@ -67,7 +67,7 @@ loginUser = async (req, res) => {
             return res.status(400)
             .json({
                 success: false,
-                errorMessage: "Incorrect email or password."
+                errorMessage: "Incorrect username or password."
             });
         }
     });
@@ -106,7 +106,7 @@ registerUser = async (req, res) => {
                 .status(400)
                 .json({
                     success: false,
-                    errorMessage: "An account with this email address already exists."
+                    errorMessage: "An account with this email address or username already exists."
                 })
         }
 

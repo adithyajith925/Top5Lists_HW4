@@ -124,6 +124,12 @@ function AuthContextProvider(props) {
     }
 
     auth.logoutUser = async function(userData) {
+        if(auth.isGuest) {
+            authReducer({
+                type:AuthActionType.LOGOUT_USER
+            });
+            return;
+        }
         try {
             const response = await api.logoutUser(userData);
             if (response.status === 200) {

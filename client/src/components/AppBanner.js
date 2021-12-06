@@ -28,6 +28,7 @@ export default function AppBanner() {
 
     const handleLogout = () => {
         handleMenuClose();
+        store.loadIdNamePairs(null);
         auth.logoutUser({email: auth.user.email});
     }
 
@@ -84,14 +85,16 @@ export default function AppBanner() {
         if(loggedIn && auth.user) {
             return auth.user.firstName[0] + auth.user.lastName[0];
         }
-        return <AccountCircle />;
+        return <AccountCircle 
+        fontSize={"large"}/>;
     }
 
     function handleHome() {
         if(auth.isGuest) {
             auth.exitGuestView();
-            console.log(auth.isGuest);
+            auth.logoutUser();
         }
+        store.closeCurrentList();
     }
 
     return (

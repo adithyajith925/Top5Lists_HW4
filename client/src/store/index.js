@@ -284,12 +284,12 @@ function GlobalStoreContextProvider(props) {
     }
 
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
-    store.loadIdNamePairs = async function (newScreen) {
+    store.loadIdNamePairs = async function (newScreen, sortType = SortingType.NEWEST) {
         const response = await api.getTop5ListPairs();
         if (response.data.success) {
             let pairsArray = [];
             if(newScreen === ScreenType.HOME) {
-                pairsArray = store.loadOwnedPairs(response);
+                pairsArray = store.loadOwnedPairs(response, sortType);
             }
             else if(newScreen === ScreenType.COMMUNITY) {
                 pairsArray = store.getCommunityLists();
@@ -310,7 +310,7 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
-    store.loadOwnedPairs = function (response) {
+    store.loadOwnedPairs = function (response, sortType) {
         let pairsArray = [];
         response.data.idNamePairs.forEach(element => {
             if (element.ownerEmail === auth.user.email) {
