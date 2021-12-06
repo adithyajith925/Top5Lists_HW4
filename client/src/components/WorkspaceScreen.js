@@ -11,6 +11,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import AuthContext from '../auth';
+import TextField from '@mui/material/TextField';
 /*
     This React component lets us edit a loaded list, which only
     happens when we are on the proper route.
@@ -31,7 +32,7 @@ function WorkspaceScreen() {
     let editItems = "";
     if (store.currentList) {
         editItems = 
-            <List id="edit-items" sx={{ width: '100%', bgcolor: 'background.paper' }}>
+            <List id="edit-items" sx={{ width: '100%'}}>
                 {
                     store.currentList.items.map((item, index) => (
                         <Top5Item 
@@ -45,7 +46,6 @@ function WorkspaceScreen() {
     }
     return (
         <div id="top5-workspace">
-            
             <Dialog
                     open={!userOwned}
                     // onClose={handleClose}
@@ -67,6 +67,34 @@ function WorkspaceScreen() {
                     </DialogActions>
                 </Dialog>
             <div id="workspace-edit">
+                <div id="workspace-top-bar">
+                    <div id="savebutton">
+                        <Button
+                        variant="contained"
+                            sx={{width: '33%', color: 'white',backgroundColor: '#1d3557',verticalAlign: 'center', fontSize: 37}}>Save
+                        </Button>
+                    </div>
+                    <div id="edit-title">
+                        <TextField 
+                            sx={{backgroundColor:'white'}}
+                            margin="normal"
+                            required
+                            fullWidth
+                            label="Top 5 List Name"
+                            name="name"
+                            autoComplete="Top 5 List Name"
+                            defaultValue={store.currentList.name}
+                            inputProps={{style: {fontSize: 37}}}
+                            InputLabelProps={{style: {fontSize: 24}}}
+                        />
+                    </div>
+                    <div id="savebutton">
+                        <Button
+                        variant="contained"
+                            sx={{width: '33%', color: 'white',backgroundColor: '#1d3557',verticalAlign: 'center', fontSize: 37}}>PUBLISH
+                        </Button>
+                    </div>
+                </div>
                 <div id="edit-numbering">
                     <div className="item-number">1.</div>
                     <div className="item-number">2.</div>

@@ -17,7 +17,7 @@ function Top5Item(props) {
 
     let { index } = props;
     let item = <TextField
-
+        sx={{backgroundColor:'white'}}
         margin="normal"
         required
         fullWidth
@@ -27,7 +27,7 @@ function Top5Item(props) {
         autoComplete="Top 5 Item"
         // className='list-card'
         defaultValue={props.text}
-        inputProps={{style: {fontSize: 48}}}
+        inputProps={{style: {fontSize: 37}}}
         InputLabelProps={{style: {fontSize: 24}}}
         autoFocus   
     />

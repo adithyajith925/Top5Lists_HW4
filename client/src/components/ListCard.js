@@ -30,40 +30,21 @@ function ListCard(props) {
     const { idNamePair } = props;
     const [text, setText] = useState(idNamePair.name);
 
-    const Item = styled(Paper)(({ theme }) => ({
-      ...theme.typography.body2,
-      padding: theme.spacing(1),
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
-    }));
-
-    console.log(idNamePair);
-
-    function handleLoadList(event, id) {
-        if (!event.target.disabled) {
-            // CHANGE THE CURRENT LIST
-            store.setCurrentList(id);
-        }
-    }
 
     function toggleExpand() {
         setIsExpanded(!isExpanded);
     }
 
-    async function handleDeleteList(event, id) {
+    async function handleDeleteList(event) {
         event.stopPropagation();
-        store.markListForDeletion(id);
-        console.log(id);
+        store.markListForDeletion(idNamePair._id);
     }
+    
+    let uploaded = <p class='minitext listinfo'>Uploaded: {"Jan 3, 2014"}</p>
 
-    function handleKeyPress(event) {
-        if (event.code === "Enter") {
-            let id = event.target.id.substring("list-".length);
-            store.changeListName(id, text);
-            toggleExpand();
-        }
+    if(!idNamePair.published) {
+        uploaded = <a class='minitext listinfo'>Edit</a>
     }
-
 
     // default list card
     let cardElement = (
@@ -106,8 +87,11 @@ function ListCard(props) {
                         </div>
                     </Grid>
                     <Grid item xs={1}>
-                            <IconButton>
-                                <DeleteIcon fontSize={'large'} />
+                            <IconButton
+                                    disabled={store.currentScreen !== ScreenType.HOME}
+                                    onClick={handleDeleteList}>
+                                <DeleteIcon 
+                                    fontSize={'large'} />
                             </IconButton>
                     </Grid>
 
@@ -120,7 +104,7 @@ function ListCard(props) {
 
                     {/* THIRD ROW */}
                     <Grid item xs={9}>
-                        <p class='minitext listinfo'>Uploaded: {"Jan 3, 2014"}</p>
+                        {uploaded}
                     </Grid>
                     <Grid item xs={1}>
                         <p class='minitext listinfo'>Views:</p>
@@ -182,8 +166,12 @@ function ListCard(props) {
                             </div>
                         </Grid>
                         <Grid item xs={1}>
-                                <IconButton>
-                                    <DeleteIcon fontSize={'large'} />
+                                <IconButton 
+                                disabled={store.currentScreen !== ScreenType.HOME}
+                                onClick={handleDeleteList}>
+                                    <DeleteIcon 
+                                    
+                                    fontSize={'large'} />
                                 </IconButton>
                         </Grid>
     
@@ -208,7 +196,7 @@ function ListCard(props) {
     
                         {/* THIRD ROW */}
                         <Grid item xs={9}>
-                            <p class='minitext listinfo'>Uploaded: {"Jan 3, 2014"}</p>
+                            {uploaded}
                         </Grid>
                         <Grid item xs={1}>
                             <p class='minitext listinfo'>Views:</p>

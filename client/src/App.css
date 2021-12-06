@@ -360,8 +360,35 @@ p.statustext {
   transform: scale(2);
 }
 
-#workspace-home,
+#workspace-home {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 100%;
+  height: 100%;
+}
+
+#savebutton {
+  position: relative;
+  top: 15%;
+  flex: 1;
+  height: 100%;
+  text-align: center;
+}
+
+#workspace-top-bar {
+  display: flex;
+  width:100%;
+  height: 20%;
+}
+
+#edit-title {
+  vertical-align: top;
+  flex: 1;
+}
+
 #workspace-edit {
+  background-color: #f1faee;
   position: absolute;
   left: 0%;
   top: 0%;
@@ -373,19 +400,17 @@ p.statustext {
   font-family: 'Rubik', sans-serif;
   position: absolute;
   left: 0%;
-  top: 0%;
+  top: 15%;
   width: 20%;
-  height: 100%;
-  background-color: var(--swatch-status);
+  height: 75%;
 }
 
 #edit-items {
   position: absolute;
   left: 20%;
-  top: 0%;
-  width: 80%;
-  height: 100%;
-  background-color: var(--swatch-primary);
+  top: 15%;
+  width: 75%;
+  height: 75%;
 }
 
 .item-number,
@@ -402,7 +427,6 @@ p.statustext {
   width: 100%;
   border: 1px 0px 1px 1px;
   border-color: black;
-  background-color: linen;
   color: black;
 }
 
