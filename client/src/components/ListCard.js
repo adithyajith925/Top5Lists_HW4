@@ -17,6 +17,8 @@ import { ScreenType } from '../store';
 import { ViewItem } from '.';
 import { Comment } from '.';
 import List from '@mui/material/List';
+import { Link } from 'react-router-dom';
+import AuthContext from '../auth';
 
 /*
     This is a card in our list of top 5 lists. It lets select
@@ -26,25 +28,49 @@ import List from '@mui/material/List';
     @author McKilla Gorilla
 */
 function ListCard(props) {
+    const { auth } = useContext(AuthContext);
     const { store } = useContext(GlobalStoreContext);
     const [isExpanded, setIsExpanded] = useState(false);
     const { idNamePair } = props;
-    const [text, setText] = useState(idNamePair.name);
+    const [text, setText] = useState("");
 
+    
+    function handleComment(event) {
+        setText(event.target.value);
+    }
+
+    function handleCommentSubmit(event) {
+        event.stopPropagation();
+        if (event.code === "Enter") {
+            store.addComment(idNamePair._id, text);
+        }
+    }
 
     function toggleExpand() {
         setIsExpanded(!isExpanded);
     }
 
+
     async function handleDeleteList(event) {
         event.stopPropagation();
         store.markListForDeletion(idNamePair._id);
     }
-    
-    let uploaded = <p class='minitext listinfo'>Uploaded: {"Jan 3, 2014"}</p>
+    var dateObj = new Date(idNamePair.date);
+    var month = dateObj.toLocaleString('default', {month: 'short'});
+    var day = dateObj.getDate();
+    var year = dateObj.getFullYear();
+
+    let newdate = month + " " + day + ", "  + year;
+
+    let uploaded = <p class='minitext listinfo'>Uploaded: {newdate}</p>
 
     if(!idNamePair.published) {
-        uploaded = <a class='minitext listinfo'>Edit</a>
+        uploaded = <Link onClick={handleEdit}>Edit</Link>
+    }
+
+    function handleEdit(event) {
+        event.preventDefault();
+        store.setCurrentList(idNamePair._id);
     }
 
     // default list card
@@ -124,8 +150,6 @@ function ListCard(props) {
             </Box>
         </Box>);
     // expanded list card
-
-    
     if(isExpanded) {
         cardElement = (
             <Box
@@ -195,11 +219,10 @@ function ListCard(props) {
                             <div className="commentcontainer">
                                 <div className="comments">
                                 {
-                                    idNamePair.items.map((item, index) => (
+                                    idNamePair.comments.map((item) => (
                                         <Comment 
-                                            key={'top5-item-' + (index+1)}
-                                            text={item}
-                                            index={index} 
+                                            owner={item.owner}
+                                            text={item.comment}
                                         />
                                     ))}
                                 </div>
@@ -210,7 +233,10 @@ function ListCard(props) {
                                         borderRadius="25px"
                                         label="Add Comment"
                                         variant="filled"
-                                        sx={{backgroundColor: "white"}}/>
+                                        disabled={auth.isGuest}
+                                        sx={{backgroundColor: "white"}}
+                                        onChange={handleComment}
+                                        onKeyPress={handleCommentSubmit}/>
                                 </div>
                             </div>
                         </Grid>

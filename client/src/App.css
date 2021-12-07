@@ -315,6 +315,12 @@ p.statustext {
   margin-left: 20px;
 }
 
+.commentview {
+  display: inline-block;
+  font-size: medium;
+  margin-left: 20px;
+}
+
 .listcontainer {
   padding: 5px;
   margin-left: 5px;
@@ -325,20 +331,24 @@ p.statustext {
   background-color: #1d3557;
   position: relative;
   min-width: 49.5%;
-  height: 76%;
+  min-height: 90%;
   border-radius: 25px;
 }
 
 .comments {
   overflow-y: auto;
-  position: relative;
-  height: 80%;
+  position: absolute;
+  min-height: 260px;
+  min-width: 854px;
+  max-height: 260px;
+  max-width: 854;
 }
 
 .commentmaker {
-  padding-top: 1%;
+  padding-top: 31%;
   position: relative;
   left: 5%;
+  bottom: 5%;
   width: 90%;
 }
 

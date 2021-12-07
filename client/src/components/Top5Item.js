@@ -12,10 +12,14 @@ import EditIcon from '@mui/icons-material/Edit';
     @author McKilla Gorilla
 */
 function Top5Item(props) {
+    const [ text, setText ] = useState(props.text);
     const { store } = useContext(GlobalStoreContext);
+    
+    function handleUpdateText(event) {
+        setText(event.target.value);
+        props.updateCallback(props.index, event.target.value);
+    }
 
-
-    let { index } = props;
     let item = <TextField
         sx={{backgroundColor:'white'}}
         margin="normal"
@@ -29,7 +33,8 @@ function Top5Item(props) {
         defaultValue={props.text}
         inputProps={{style: {fontSize: 37}}}
         InputLabelProps={{style: {fontSize: 24}}}
-        autoFocus   
+        autoFocus
+        onChange={handleUpdateText}
     />
     return item;
 }

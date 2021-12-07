@@ -112,8 +112,7 @@ function AuthContextProvider(props) {
                         user: response.data.user
                     }
                 })
-                history.push("/");
-                store.loadIdNamePairs();
+                auth.logoutUser();
             }
         }
         catch (err) {
@@ -136,7 +135,7 @@ function AuthContextProvider(props) {
                 authReducer({
                     type: AuthActionType.LOGOUT_USER
                 })
-                history.push("/");
+                history.push("/login/");
             }
         }
         catch (err) {

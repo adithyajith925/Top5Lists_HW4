@@ -14,7 +14,7 @@ import EditIcon from '@mui/icons-material/Edit';
 function Comment(props) {
     const { store } = useContext(GlobalStoreContext);
 
-    let text = <p style={{color: 'white'}} className="listview">{props.text}</p>
+    let text = <p style={{color: 'white'}} className="commentview">{props.owner + ": " + props.text}</p>
 
     let item = 
     <div style={{backgroundColor: 'transparent', borderBottom: '2px solid white'}} className="listcontainer">

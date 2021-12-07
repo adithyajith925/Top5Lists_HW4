@@ -210,28 +210,47 @@ function GlobalStoreContextProvider(props) {
     // RESPONSE TO EVENTS INSIDE OUR COMPONENTS.
 
     // THIS FUNCTION PROCESSES CHANGING A LIST NAME
-    store.changeListName = async function (id, newName) {
+
+    store.addComment = async function (id, comment) {
         let response = await api.getTop5ListById(id);
         if (response.data.success) {
             let top5List = response.data.top5List;
-            top5List.name = newName;
+            let owner = auth.user.email;
+            // let newComment = [{owner, comment}];
+            top5List.comments.push({owner, comment});
+            console.log(top5List.comments);
             async function updateList(top5List) {
                 response = await api.updateTop5ListById(top5List._id, top5List);
                 if (response.data.success) {
-                    async function getListPairs(top5List) {
-                        response = await api.getTop5ListPairs();
-                        if (response.data.success) {
-                            let pairsArray = store.loadOwnedPairs(response);
-                            storeReducer({
-                                type: GlobalStoreActionType.CHANGE_LIST_NAME,
-                                payload: {
-                                    idNamePairs: pairsArray,
-                                    top5List: top5List
-                                }
-                            });
-                        }
+                    async function getListPairs() {
+                        store.loadIdNamePairs(store.currentScreen);
                     }
-                    getListPairs(top5List);
+                    getListPairs();
+                }
+            }
+            updateList(top5List);
+        }
+    }
+
+    store.changeListName = async function (id, newItems, newTitle, isPublished) {
+        let response = await api.getTop5ListById(id);
+        if (response.data.success) {
+            let top5List = response.data.top5List;
+            top5List.name = newTitle;
+            top5List.items = newItems;
+            console.log(top5List.published);
+            top5List.published = isPublished;
+            if(isPublished) {
+                top5List.date = new Date();
+            }
+            console.log(top5List);
+            async function updateList(top5List) {
+                response = await api.updateTop5ListById(top5List._id, top5List);
+                if (response.data.success) {
+                    async function getListPairs() {
+                        store.loadIdNamePairs(store.currentScreen);
+                    }
+                    getListPairs();
                 }
             }
             updateList(top5List);
@@ -269,7 +288,7 @@ function GlobalStoreContextProvider(props) {
             dislikes: 0,
             date: new Date(),
             published: false,
-            comments: null
+            comments: []
         };
         const response = await api.createTop5List(payload);
         if (response.data.success) {
@@ -301,7 +320,8 @@ function GlobalStoreContextProvider(props) {
                 pairsArray = store.getCommunityLists();
             }
             else if(newScreen === ScreenType.ALL) {
-                pairsArray = response.data.data;
+                // pairsArray = response.data.data;
+                pairsArray = store.filterUnpublished(response);
             }
             // let pairsArray = store.loadOwnedPairs(response);
             storeReducer({
@@ -313,6 +333,16 @@ function GlobalStoreContextProvider(props) {
         else {
             console.log("API FAILED TO GET THE LIST PAIRS");
         }
+    }
+
+    store.filterUnpublished = function (response) {
+        let pairsArray = [];
+        response.data.data.forEach(element => {
+            if (element.published) {
+                pairsArray.push(element);
+            }
+        })
+        return pairsArray;
     }
 
     store.loadOwnedPairs = function (response, sortType) {
@@ -341,6 +371,7 @@ function GlobalStoreContextProvider(props) {
         // GET THE LIST
         let response = await api.getTop5ListById(id);
         if (response.data.success) {
+            console.log(response.data.top5List);
             let top5List = response.data.top5List;
             storeReducer({
                 type: GlobalStoreActionType.MARK_LIST_FOR_DELETION,
